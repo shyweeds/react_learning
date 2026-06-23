@@ -1,0 +1,19 @@
+<html>
+    <body>
+        <div id="app"></div>
+        <script type="text/javascript">
+            // get the app element
+            const app = document.getElementById('app');
+
+            // create a header element
+            const header = document.createElement('h1');
+
+            // add text to the header element
+            const text = 'Develop. Preview. Ship.';
+            const headerContent = document.createTextNode(text);
+
+            header.appendChild(headerContent);
+            app.appendChild(header);
+        </script>
+    </body>
+</html>
