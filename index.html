@@ -1,14 +1,46 @@
 <html>
   <body>
     <div id="app"></div>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Babel Script -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script type="text/babel">
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+    <!--
+      type="text/babel": Babel standalone 只处理此类型的脚本，旧版 JSXTransformer 使用的 text/jsx 已废弃
+      data-presets="":   清空默认预设。Babel 8 的 React 预设默认使用 automatic JSX 运行时，
+                          会生成 import { jsx } from "react/jsx-runtime"，
+                          这在普通 <script> 标签中无法执行，因此禁用它
+      data-plugins="transform-react-jsx": 手动启用 JSX 转换插件（不再依赖 React 预设）
+    -->
+    <script type="text/babel" data-presets="" data-plugins="transform-react-jsx">
+      /**
+       * @jsxRuntime classic
+       * 切换到经典 JSX 运行时。
+       * 经典模式会将 JSX 编译为 React.createElement() 调用，
+       * 而非 automatic 模式下的 import { jsx } from "react/jsx-runtime"，
+       * 从而避免浏览器中无法解析 ES module import 的问题。
+       */
       const domNode = document.getElementById('app');
+
+      // 在React中,组件其实就是一个函数,组件是一种能返回用户界面元素的函数
+      // 要将此组件渲染到DOM中,请将其作为第一个参数传递给root.render()方法
+      function Header({title}) {
+        return <h1>{title ? title : 'Default Title'}</h1>
+      }
+
+      function HomePage(){
+      const names = ['Alice', 'Bob', 'Charlie'];
+        return (
+          <div>
+            <Header title="A new title" />
+            <ul>
+              {names.map((name)=>(<li key={name}>{name}</li>))}
+              </ul>
+          </div>
+        );
+      }
+
       const root = ReactDOM.createRoot(domNode);
-      root.render(<h1>Develop. Preview. Ship.</h1>);
+      root.render(<HomePage />);
     </script>
   </body>
 </html>
